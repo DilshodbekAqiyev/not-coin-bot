@@ -113,7 +113,7 @@ export const HomePage = () => {
       </div>
 
       <div
-        className="flex items-center justify-center my-10 rounded-full cursor-pointer w-[300px] h-[300px] mx-auto shadow-yellow relative"
+        className="flex items-center justify-center my-10 rounded-full cursor-pointer w-[300px] h-[300px] mx-auto shadow-yellow relative overflow-hidden"
         onClick={handleCoinClick}
         style={coinStyle}
       >
