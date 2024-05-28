@@ -74,3 +74,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* .fly-up {
+  animation: fly-up 0.5s forwards;
+}
+
+@keyframes fly-up {
+  to {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+} */
+
+.fly-up {
+  animation: fly-up 0.7s forwards;
+}
+
+@keyframes fly-up {
+  to {
+    transform: translateY(-300%);
+    opacity: 0;
+  }
+}

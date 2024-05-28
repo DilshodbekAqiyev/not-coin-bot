@@ -1,31 +1,97 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import {
-  ChevronRightIcon,
-  DotIcon,
-  RocketIcon,
-  ShieldHalfIcon,
-  ZapIcon,
-} from "lucide-react";
+import { ChevronRightIcon, DotIcon, ShieldHalfIcon } from "lucide-react";
+import { useState } from "react";
+import { FaChevronRight } from "react-icons/fa";
+import { GiDarkSquad } from "react-icons/gi";
+import { GoZap } from "react-icons/go";
+import { MdOutlineRocketLaunch } from "react-icons/md";
 
 export const HomePage = () => {
+  const [joinSquad, setJoinSquad] = useState(false);
+
+  const [counter, setCounter] = useState(0);
+  const [flyNumbers, setFlyNumbers] = useState([]);
+  const [coinStyle, setCoinStyle] = useState({
+    transform: "rotateX(0) rotateY(0)",
+  });
+
+  const handleCoinClick = (event) => {
+    setCounter((prevCounter) => prevCounter + 1);
+
+    const coin = event.currentTarget;
+    const rect = coin.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const newFlyNumber = { id: Date.now(), x, y };
+    setFlyNumbers((prevFlyNumbers) => [...prevFlyNumbers, newFlyNumber]);
+
+    const rotateX = (y / rect.height - 0.5) * 10;
+    const rotateY = (x / rect.width - 0.5) * -10;
+    setCoinStyle({
+      transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+    });
+
+    setTimeout(() => {
+      setFlyNumbers((prevFlyNumbers) =>
+        prevFlyNumbers.filter((number) => number.id !== newFlyNumber.id)
+      );
+    }, 500);
+  };
+
   return (
     <div className="w-full h-screen bg-[#000111] text-white mx-auto p-5 flex flex-col justify-between">
       <div>
-        <Button className="w-full mx-auto">
-          Join Squad &nbsp;
-          <ChevronRightIcon size={18} color="#ffffffff" />
-        </Button>
+        {joinSquad ? (
+          <>
+            <Button
+              className="w-full mx-auto flex items-center justify-between h-[60px]"
+              onClick={() => setJoinSquad(false)}
+            >
+              <div className="flex items-center gap-2">
+                <GiDarkSquad size={30} />
+                <div className="flex items-center flex-col gap-1">
+                  <span className="text-[18px]">Uzbekistan</span>
+                  <span className="flex items-center gap-1">
+                    <img
+                      src="/images/bitcoin.svg"
+                      alt="Bitcoin Icon"
+                      className="w-4 h-4"
+                    />{" "}
+                    37,593,155
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex flex-col items-center justify-center">
+                  <div className="text-[18px]">68th</div>
+                  <div className="text-lg">Silver</div>
+                </div>
+              </div>
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button
+              className="w-full mx-auto text-lg h-[60px]"
+              onClick={() => setJoinSquad(true)}
+            >
+              Join Squad &nbsp;
+              <FaChevronRight />
+            </Button>
+          </>
+        )}
 
-        <div className="flex items-center justify-center gap-3 text-[42px] font-bold">
+        <div className="flex items-center justify-center gap-3 text-[42px] font-bold my-2">
           <img
             src="/images/bitcoin.svg"
             alt="Bitcoin Icon"
             className="w-10 h-10"
           />
-          2,879
+          {counter}
         </div>
-        <div className="flex items-center justify-center text-base my-3">
+        <div className="flex items-center justify-center text-base my-3 font-bol">
           <span>32,384th</span>
           <DotIcon className="mx-3" />
           <span className="flex items-center gap-1.5">
@@ -35,21 +101,34 @@ export const HomePage = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center my-10 rounded-full cursor-pointer w-[300px] h-[300px] mx-auto shadow-yellow">
+      <div
+        className="flex items-center justify-center my-10 rounded-full cursor-pointer w-[300px] h-[300px] mx-auto shadow-yellow relative"
+        onClick={handleCoinClick}
+        style={coinStyle}
+      >
         <img src="/images/bitcoin.png" className="w-[300px] h-[300px]" />
+        {flyNumbers.map((number) => (
+          <span
+            key={number.id}
+            className="font-bold text-4xl absolute opacity-100 fly-up pointer-events-none"
+            style={{ left: number.x, top: number.y }}
+          >
+            +1
+          </span>
+        ))}
       </div>
 
       <div className="flex flex-col gap-5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ZapIcon size={35} />{" "}
+            <GoZap size={42} />
             <div className="flex flex-col justify-center">
               <div className="text-[24px]">5,000</div>
               <div className="text-[14px]">/10,000</div>
             </div>
           </div>
-          <div className="bg-[#4f4f4f] p-2 rounded-xl text-2xl flex items-center gap-5 cursor-pointer">
-            <span className="flex flex-col">
+          <div className="bg-[#4f4f4f] p-2 px-5 rounded-xl text-2xl flex items-center gap-5 cursor-pointer shadow-sm">
+            <span className="flex flex-col items-center justify-center">
               <span className="text-[24px]">99+</span>
               <span className="text-[14px]">Frens</span>
             </span>
@@ -61,15 +140,15 @@ export const HomePage = () => {
               />
               <span className="text-[14px]">Earn</span>
             </span>
-            <span>
+            <span className="">
               <span className="flex items-center justify-center">
-                <RocketIcon size={27} />
+                <MdOutlineRocketLaunch />
               </span>
               <span className="text-[14px]">Boosts</span>
             </span>
           </div>
         </div>
-        <Progress value={50} />
+        <Progress value={90} />
       </div>
     </div>
   );
