@@ -6,17 +6,18 @@ import { FaChevronRight } from "react-icons/fa";
 import { GiDarkSquad } from "react-icons/gi";
 import { GoZap } from "react-icons/go";
 import { MdOutlineRocketLaunch } from "react-icons/md";
+import { FlyNumber } from "./types";
 
 export const HomePage = () => {
   const [joinSquad, setJoinSquad] = useState(false);
 
-  const [counter, setCounter] = useState(0);
-  const [flyNumbers, setFlyNumbers] = useState([]);
+  const [counter, setCounter] = useState<number>(0);
+  const [flyNumbers, setFlyNumbers] = useState<FlyNumber[]>([]);
   const [coinStyle, setCoinStyle] = useState({
     transform: "rotateX(0) rotateY(0)",
   });
 
-  const handleCoinClick = (event) => {
+  const handleCoinClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setCounter((prevCounter) => prevCounter + 1);
 
     const coin = event.currentTarget;
@@ -24,11 +25,20 @@ export const HomePage = () => {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const newFlyNumber = { id: Date.now(), x, y };
-    setFlyNumbers((prevFlyNumbers) => [...prevFlyNumbers, newFlyNumber]);
+    const newFlyNumber: FlyNumber = { id: Date.now(), x, y };
+    setFlyNumbers((prevFlyNumbers: FlyNumber[]) => [
+      ...prevFlyNumbers,
+      newFlyNumber,
+    ]);
 
-    const rotateX = (y / rect.height - 0.5) * 10;
-    const rotateY = (x / rect.width - 0.5) * -10;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const deltaX = x - centerX;
+    const deltaY = y - centerY;
+
+    const rotateX = (deltaY / centerY) * 20;
+    const rotateY = (deltaX / centerX) * -20;
+
     setCoinStyle({
       transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
     });
@@ -37,6 +47,7 @@ export const HomePage = () => {
       setFlyNumbers((prevFlyNumbers) =>
         prevFlyNumbers.filter((number) => number.id !== newFlyNumber.id)
       );
+      setCoinStyle({ transform: "rotateX(0) rotateY(0) rotateZ(0)" });
     }, 500);
   };
 
@@ -107,7 +118,7 @@ export const HomePage = () => {
         style={coinStyle}
       >
         <img src="/images/bitcoin.png" className="w-[300px] h-[300px]" />
-        {flyNumbers.map((number) => (
+        {flyNumbers.map((number: FlyNumber) => (
           <span
             key={number.id}
             className="font-bold text-4xl absolute opacity-100 fly-up pointer-events-none"
