@@ -21,11 +21,6 @@ export const HomePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [joinSquad, setJoinSquad] = useState(false);
-  // const [counter, setCounter] = useState({
-  //   origin: 0,
-  //   max: 500,
-  //   min: 0,
-  // });
   const [flyNumbers, setFlyNumbers] = useState<FlyNumber[]>([]);
   const [coinStyle, setCoinStyle] = useState({
     transform: "rotateX(0) rotateY(0)",
@@ -33,13 +28,6 @@ export const HomePage = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // setCounter((prevCounter) => {
-      //   if (prevCounter.min < prevCounter.max) {
-      //     dispatch(incrementMinCount(1));
-      //     return { ...prevCounter, min: prevCounter.min + 1 };
-      //   }
-      //   return prevCounter;
-      // });
       if (user.min < user.max) {
         dispatch(incrementMinCount(1));
       }
@@ -52,11 +40,6 @@ export const HomePage = () => {
     if (user.min <= user.max && user.min > 0) {
       dispatch(incrementCoin(1));
       dispatch(decrementMinCount(1));
-      // setCounter((prevCounter) => ({
-      //   ...prevCounter,
-      //   origin: prevCounter.origin + 1,
-      //   min: Math.max(prevCounter.min - 1, 0),
-      // }));
 
       const coin = event.currentTarget;
       const rect = coin.getBoundingClientRect();
@@ -95,10 +78,7 @@ export const HomePage = () => {
       <div>
         {joinSquad ? (
           <>
-            <Button
-              className="w-full mx-auto flex items-center justify-between h-[60px]"
-              onClick={() => setJoinSquad(false)}
-            >
+            <Button className="w-full mx-auto flex items-center justify-between h-[60px]">
               <div className="flex items-center gap-2">
                 <GiDarkSquad size={30} />
                 <div className="flex items-center flex-col gap-1">

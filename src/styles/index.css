@@ -75,17 +75,6 @@
   }
 }
 
-/* .fly-up {
-  animation: fly-up 0.5s forwards;
-}
-
-@keyframes fly-up {
-  to {
-    transform: translate(-50%, -50%) scale(1.5);
-    opacity: 0;
-  }
-} */
-
 .fly-up {
   animation: fly-up 0.7s forwards;
 }
@@ -95,4 +84,13 @@
     transform: translateY(-300%);
     opacity: 0;
   }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
