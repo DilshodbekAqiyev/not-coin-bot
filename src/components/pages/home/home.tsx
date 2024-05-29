@@ -7,14 +7,25 @@ import { GiDarkSquad } from "react-icons/gi";
 import { GoZap } from "react-icons/go";
 import { MdOutlineRocketLaunch } from "react-icons/md";
 import { FlyNumber } from "./types";
+import { useDispatch } from "react-redux";
+import {
+  decrementMinCount,
+  incrementCoin,
+  incrementMinCount,
+} from "@/store/reducers/user-reducer";
+import { useNavigate } from "react-router-dom";
+import { useTypedSelector } from "@/store";
 
 export const HomePage = () => {
+  const user = useTypedSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [joinSquad, setJoinSquad] = useState(false);
-  const [counter, setCounter] = useState({
-    origin: 0,
-    max: 500,
-    min: 0,
-  });
+  // const [counter, setCounter] = useState({
+  //   origin: 0,
+  //   max: 500,
+  //   min: 0,
+  // });
   const [flyNumbers, setFlyNumbers] = useState<FlyNumber[]>([]);
   const [coinStyle, setCoinStyle] = useState({
     transform: "rotateX(0) rotateY(0)",
@@ -22,24 +33,30 @@ export const HomePage = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCounter((prevCounter) => {
-        if (prevCounter.min < prevCounter.max) {
-          return { ...prevCounter, min: prevCounter.min + 1 };
-        }
-        return prevCounter;
-      });
+      // setCounter((prevCounter) => {
+      //   if (prevCounter.min < prevCounter.max) {
+      //     dispatch(incrementMinCount(1));
+      //     return { ...prevCounter, min: prevCounter.min + 1 };
+      //   }
+      //   return prevCounter;
+      // });
+      if (user.min < user.max) {
+        dispatch(incrementMinCount(1));
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [counter.max]);
+  }, [dispatch, user.max, user.min]);
 
   const handleCoinClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (counter.min < counter.max && counter.min > 0) {
-      setCounter((prevCounter) => ({
-        ...prevCounter,
-        origin: prevCounter.origin + 1,
-        min: Math.max(prevCounter.min - 1, 0),
-      }));
+    if (user.min <= user.max && user.min > 0) {
+      dispatch(incrementCoin(1));
+      dispatch(decrementMinCount(1));
+      // setCounter((prevCounter) => ({
+      //   ...prevCounter,
+      //   origin: prevCounter.origin + 1,
+      //   min: Math.max(prevCounter.min - 1, 0),
+      // }));
 
       const coin = event.currentTarget;
       const rect = coin.getBoundingClientRect();
@@ -122,7 +139,7 @@ export const HomePage = () => {
             alt="Bitcoin Icon"
             className="w-10 h-10"
           />
-          {counter.origin}
+          {user.coin}
         </div>
         <div className="flex items-center justify-center text-base my-3 font-bol">
           <span>32,384th</span>
@@ -159,8 +176,8 @@ export const HomePage = () => {
           <div className="flex items-center gap-2">
             <GoZap size={42} color="#fff000" />
             <div className="flex flex-col justify-center">
-              <div className="text-[24px]">{counter.min}</div>
-              <div className="text-[14px]">/{counter.max}</div>
+              <div className="text-[24px]">{user.min}</div>
+              <div className="text-[14px]">/{user.max}</div>
             </div>
           </div>
           <div className="bg-[#4f4f4f] p-2 px-5 rounded-xl text-2xl flex items-center gap-5 cursor-pointer shadow-sm">
@@ -176,7 +193,7 @@ export const HomePage = () => {
               />
               <span className="text-[14px]">Earn</span>
             </span>
-            <span className="">
+            <span role="button" onClick={() => navigate("/boosts")}>
               <span className="flex items-center justify-center">
                 <MdOutlineRocketLaunch color="#fff000" />
               </span>
@@ -184,7 +201,7 @@ export const HomePage = () => {
             </span>
           </div>
         </div>
-        <Progress value={(counter.min / counter.max) * 100} />
+        <Progress value={(user.min / user.max) * 100} />
       </div>
     </div>
   );
