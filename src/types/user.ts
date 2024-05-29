@@ -4,10 +4,27 @@ export interface User {
   min: number;
   friends?: number;
   squad?: string;
-  boosts?: UserBoosts;
+  boost: number;
+  isBoosted: boolean;
+  boosters: Booster[];
+  missions: Mission[];
+  lastEnergyLimitBoostUsed: number;
+  lastRechargingSpeedBoostUsed: number;
+  lastBoostUsed: number;
+  lastFullEnergyBoostUsed: number;
 }
 
-export interface UserBoosts {
-  turbo: number;
-  energy: number;
+export interface Booster {
+  id: number;
+  type: string;
+  level: number;
+  duration: number;
+  isActive: boolean;
+}
+
+export interface Mission {
+  id: number;
+  title: string;
+  coinReward: number;
+  isCompleted: boolean;
 }

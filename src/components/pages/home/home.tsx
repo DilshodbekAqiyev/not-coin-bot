@@ -38,8 +38,11 @@ export const HomePage = () => {
 
   const handleCoinClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (user.min <= user.max && user.min > 0) {
-      dispatch(incrementCoin(1));
-      dispatch(decrementMinCount(1));
+      if (!user.isBoosted) {
+        dispatch(decrementMinCount(1));
+      }
+
+      dispatch(incrementCoin(user.boost));
 
       const coin = event.currentTarget;
       const rect = coin.getBoundingClientRect();
@@ -146,7 +149,7 @@ export const HomePage = () => {
             className="font-bold text-4xl absolute opacity-100 fly-up pointer-events-none"
             style={{ left: number.x, top: number.y }}
           >
-            +1
+            +{user.boost}
           </span>
         ))}
       </div>
