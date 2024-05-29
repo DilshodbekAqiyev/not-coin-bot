@@ -5,6 +5,7 @@ import { MdOutlineRocketLaunch } from "react-icons/md";
 import { BoosterCard } from "./components/booster-card";
 import { initializeBackButton } from "@/utils/back";
 import { useEffect } from "react";
+import { GoZap } from "react-icons/go";
 
 export const BoostsPage = () => {
   const user = useTypedSelector((state) => state.user);
@@ -12,7 +13,7 @@ export const BoostsPage = () => {
 
   useEffect(() => {
     const handleBackClick = () => {
-      navigate("/home");
+      navigate("/");
     };
 
     const cleanup = initializeBackButton(handleBackClick);
@@ -56,7 +57,7 @@ export const BoostsPage = () => {
               <div className="text-[14px] opacity-40">12 hours left</div>
             </div>
             <span className="flex items-center justify-center">
-              <MdOutlineRocketLaunch color="#fff000" size={40} />
+              <GoZap size={40} color="#fff000" />
             </span>
           </Card>
         </div>
