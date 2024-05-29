@@ -173,7 +173,12 @@ export const HomePage = () => {
               />
               <span className="text-[14px]">Earn</span>
             </span>
-            <span role="button" onClick={() => navigate("/boosts")}>
+            <span
+              role="button"
+              onClick={() => {
+                navigate("/boosts");
+              }}
+            >
               <span className="flex items-center justify-center">
                 <MdOutlineRocketLaunch color="#fff000" />
               </span>

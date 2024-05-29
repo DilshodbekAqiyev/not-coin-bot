@@ -1,11 +1,26 @@
 import { useTypedSelector } from "@/store";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card } from "./components";
 import { MdOutlineRocketLaunch } from "react-icons/md";
 import { BoosterCard } from "./components/booster-card";
+import { initializeBackButton } from "@/utils/back";
+import { useEffect } from "react";
 
 export const BoostsPage = () => {
   const user = useTypedSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleBackClick = () => {
+      navigate("/home");
+    };
+
+    const cleanup = initializeBackButton(handleBackClick);
+
+    return () => {
+      cleanup();
+    };
+  }, [navigate]);
 
   return (
     <div className="p-5">
