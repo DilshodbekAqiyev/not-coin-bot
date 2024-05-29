@@ -181,7 +181,10 @@ export const HomePage = () => {
             </span>
           </div>
         </div>
-        <Progress value={(user.min / user.max) * 100} />
+        <Progress
+          value={(user.min / user.max) * 100}
+          className="bg-[#fff000]"
+        />
       </div>
     </div>
   );
