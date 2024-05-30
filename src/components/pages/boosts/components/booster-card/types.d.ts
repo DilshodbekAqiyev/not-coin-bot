@@ -1,4 +1,6 @@
 export interface Props {
+  id: number;
   title: string;
-  coin: number;
+  coinReward: number;
+  isCompleted: boolean;
 }

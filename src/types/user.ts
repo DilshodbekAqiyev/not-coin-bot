@@ -7,7 +7,10 @@ export interface User {
   boost: number;
   isBoosted: boolean;
   boosters: Booster[];
-  missions: Mission[];
+  missions: {
+    id: number;
+    missions: Mission[];
+  }[];
   lastEnergyLimitBoostUsed: number;
   lastRechargingSpeedBoostUsed: number;
   lastBoostUsed: number;

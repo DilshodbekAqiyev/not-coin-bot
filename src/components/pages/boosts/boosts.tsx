@@ -188,7 +188,16 @@ export const BoostsPage = () => {
       <div className="my-8">
         <div className="font-semibold text-[24px] mb-3">Missions</div>
         <div className="flex gap-3 overflow-x-auto w-full no-scrollbar">
-          <Card className="py-0 !min-w-[400px]">
+          {user.missions.map(({ id, missions }) => (
+            <>
+              <Card className="py-0 !min-w-[380px]" key={id}>
+                {missions.map((mission) => (
+                  <BoosterCard {...mission} key={mission.id} />
+                ))}
+              </Card>
+            </>
+          ))}
+          {/* <Card className="py-0 !min-w-[400px]">
             <BoosterCard title="Welcome to TON NFT" coin={100000} />
             <BoosterCard title="Silver league bonus" coin={2000} />
             <BoosterCard title="Gold league bonus" coin={2000} />
@@ -199,7 +208,7 @@ export const BoostsPage = () => {
             <BoosterCard title="Invite 5 friend bonus" coin={5000} />
             <BoosterCard title="Invite 10 friend bonus" coin={25000} />
             <BoosterCard title="Invite 100 friend bonus" coin={100000} />
-          </Card>
+          </Card> */}
         </div>
       </div>
     </div>

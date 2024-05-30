@@ -19,46 +19,61 @@ const initialState: User = {
   missions: [
     {
       id: 1,
-      title: "Welcome to TON NFT",
-      coinReward: 100000,
-      isCompleted: false,
+      missions: [
+        {
+          id: 1,
+          title: "Welcome to TON NFT",
+          coinReward: 100000,
+          isCompleted: false,
+        },
+        {
+          id: 2,
+          title: "Silver league bonus",
+          coinReward: 2000,
+          isCompleted: false,
+        },
+        {
+          id: 3,
+          title: "Gold league bonus",
+          coinReward: 2000,
+          isCompleted: false,
+        },
+        {
+          id: 4,
+          title: "Diamond league bonus",
+          coinReward: 10000,
+          isCompleted: false,
+        },
+      ],
     },
     {
       id: 2,
-      title: "Silver league bonus",
-      coinReward: 2000,
-      isCompleted: false,
-    },
-    { id: 3, title: "Gold league bonus", coinReward: 2000, isCompleted: false },
-    {
-      id: 4,
-      title: "Diamond league bonus",
-      coinReward: 10000,
-      isCompleted: false,
-    },
-    {
-      id: 5,
-      title: "Invite 1 friend bonus",
-      coinReward: 2000,
-      isCompleted: false,
-    },
-    {
-      id: 6,
-      title: "Invite 5 friend bonus",
-      coinReward: 5000,
-      isCompleted: false,
-    },
-    {
-      id: 7,
-      title: "Invite 10 friend bonus",
-      coinReward: 25000,
-      isCompleted: false,
-    },
-    {
-      id: 8,
-      title: "Invite 100 friend bonus",
-      coinReward: 100000,
-      isCompleted: false,
+      missions: [
+        {
+          id: 5,
+          title: "Invite 1 friend bonus",
+          coinReward: 2000,
+          isCompleted: false,
+        },
+        {
+          id: 6,
+          title: "Invite 5 friend bonus",
+          coinReward: 5000,
+          isCompleted: false,
+        },
+        {
+          id: 7,
+          title: "Invite 10 friend bonus",
+          coinReward: 25000,
+          isCompleted: false,
+        },
+        {
+          id: 8,
+          title: "Invite 100 friend bonus",
+          coinReward: 100000,
+          isCompleted: false,
+        },
+      ],
     },
   ],
 };
@@ -87,10 +102,15 @@ const userSlice = createSlice({
       }
     },
     completeMission: (state, action: PayloadAction<number>) => {
-      const mission = state.missions.find((m) => m.id === action.payload);
-      if (mission && !mission.isCompleted) {
-        mission.isCompleted = true;
-        state.coin += mission.coinReward;
+      for (const missionGroup of state.missions) {
+        const mission = missionGroup.missions.find(
+          (m) => m.id === action.payload
+        );
+        if (mission && !mission.isCompleted) {
+          mission.isCompleted = true;
+          state.coin += mission.coinReward;
+          break;
+        }
       }
     },
     activateTemporaryBoost: (state) => {
