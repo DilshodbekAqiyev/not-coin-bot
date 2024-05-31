@@ -164,7 +164,13 @@ export const HomePage = () => {
             </div>
           </div>
           <div className="bg-[#4f4f4f] p-2 px-5 rounded-xl text-2xl flex items-center gap-5 cursor-pointer shadow-sm">
-            <span className="flex flex-col items-center justify-center">
+            <span
+              className="flex flex-col items-center justify-center"
+              role="button"
+              onClick={() => {
+                navigate("/friends");
+              }}
+            >
               <span className="text-[24px]">0</span>
               <span className="text-[14px]">Frens</span>
             </span>
