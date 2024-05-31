@@ -124,11 +124,17 @@ export const HomePage = () => {
           />
           {user.coin}
         </div>
-        <div className="flex items-center justify-center text-base my-3 font-bol">
+        <div
+          className="flex items-center justify-center text-base my-3 font-bol"
+          role="button"
+          onClick={() => {
+            navigate("/ranks");
+          }}
+        >
           <span>32,384th</span>
           <DotIcon className="mx-3" />
           <span className="flex items-center gap-1.5">
-            <ShieldHalfIcon /> Bronze
+            <ShieldHalfIcon /> Platinum
             <ChevronRightIcon size={18} color="#ffffffff" />
           </span>
         </div>
