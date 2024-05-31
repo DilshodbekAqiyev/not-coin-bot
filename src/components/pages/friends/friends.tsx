@@ -1,11 +1,30 @@
 import { FaChevronRight } from "react-icons/fa";
 import { Card } from "../boosts/components";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { initializeBackButton } from "@/utils/back";
 
 export const FriendsPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleBackClick = () => {
+      navigate("/");
+    };
+
+    const cleanup = initializeBackButton(handleBackClick);
+
+    return () => {
+      cleanup();
+    };
+  }, [navigate]);
+
   return (
     <div className="p-5 flex flex-col justify-between">
-      <div className="text-[32px] mb-5 text-center">Friends Zone</div>
+      <div className="text-[32px] mb-5 text-center font-semibold">
+        Friends Zone
+      </div>
       <Card className="flex items-center justify-between">
         <div className="text-[#fff000] text-[18px] flex items-center justify-between">
           +0&nbsp;
@@ -48,7 +67,7 @@ export const FriendsPage = () => {
           </div>
           <div className="text-[18px] text-center my-2">Open details</div>
         </Card>
-        <Button className="bg-[#fff000] bg-opacity-90 rounded-[18px] text-center w-full mt-2">
+        <Button className="bg-[#fff000]  bg-opacity-80 rounded-[18px] text-center w-full mt-2">
           Invite Friends
         </Button>
       </div>
